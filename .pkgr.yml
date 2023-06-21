@@ -6,14 +6,10 @@ targets:
   centos-8:
     dependencies:
       - curl
-      - elasticsearch
-      - nginx
-      - postgresql-server
       - which
       - epel-release
       - imlib2
       - shared-mime-info
-      - redis
     build_dependencies:
       - https://download.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/i/imlib2-1.4.9-8.el8.x86_64.rpm
       - https://download.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/i/imlib2-devel-1.4.9-8.el8.x86_64.rpm
@@ -21,12 +17,8 @@ targets:
   debian-11:
     dependencies:
       - curl
-      - elasticsearch|elasticsearch-oss
-      - nginx|apache2
-      - postgresql|mariadb-server
       - libimlib2
       - shared-mime-info
-      - redis-server
     build_dependencies:
       - libimlib2
       - libimlib2-dev
@@ -47,12 +39,8 @@ targets:
   ubuntu-20.04:
     dependencies:
       - curl
-      - elasticsearch|elasticsearch-oss
-      - nginx|apache2
-      - postgresql|mysql-server|mariadb-server
       - libimlib2
       - shared-mime-info
-      - redis-server
     build_dependencies:
       - libimlib2
       - libimlib2-dev
@@ -60,12 +48,8 @@ targets:
   ubuntu-22.04:
     dependencies:
       - curl
-      - elasticsearch|elasticsearch-oss
-      - nginx|apache2
-      - postgresql|mysql-server|mariadb-server
       - libimlib2
       - shared-mime-info
-      - redis-server
     build_dependencies:
       - libimlib2
       - libimlib2-dev
@@ -73,9 +57,6 @@ targets:
   sles-15:
     dependencies:
       - curl
-      - elasticsearch
-      - nginx
-      - postgresql-server
       - libImlib2-1
       - imlib2
       - shared-mime-info
