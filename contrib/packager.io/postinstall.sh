@@ -3,39 +3,46 @@
 # packager.io postinstall script
 #
 
-PATH=/opt/zammad/bin:/opt/zammad/vendor/bundle/bin:/sbin:/bin:/usr/sbin:/usr/bin:
+# base dir
+ZAMMAD_DIR=${ZAMMAD_DIR:="/opt/zammad"}
 
 # import config
-. /opt/zammad/contrib/packager.io/config
+source ${ZAMMAD_DIR}/contrib/packager.io/config
+
+PATH="${ZAMMAD_DIR}/bin:/opt/zammad/vendor/bundle/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
 
 # import functions
-. /opt/zammad/contrib/packager.io/functions
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/misc.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/ui.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/database/batch.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/redis/batch.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/elasticsearch/batch.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/proxy/batch.sh
+
+function detect_update() {
+  DB_UPDATE="no"
+  REDIS_UPDATE="no"
+  PROXY_UPDATE="no"
+  ZAMMAD_UPDATE="no"
+
+  export DB_UPDATE REDIS_UPDATE PROXY_UPDATE ZAMMAD_UPDATE
+}
 
 # exec postinstall
-debug
-
 detect_os
-
-detect_docker
 
 detect_initcmd
 
-detect_database
+detect_update
 
-detect_webserver
+ui_welcome
 
-enforce_redis
+database_run
 
-create_initscripts
+redis_run
 
-stop_zammad
+elasticsearch_run
+
+proxy_run
 
 update_or_install
-
-set_env_vars
-
-start_zammad
-
-create_webserver_config
-
-final_message
