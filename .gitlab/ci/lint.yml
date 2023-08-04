@@ -25,7 +25,7 @@
   cache: []
   before_script: []
   script:
-    - shellcheck -S warning $(find . -name "*.sh" -o -name "functions" | egrep -v "/vendor|node_modules/")
+    - shellcheck -S warning $(find . -name "*.sh" -o -name "functions" | egrep -v "#vendor|node_modules|contrib/packager.io/lib#")
   after_script: []
 
 'lint: i18n & rails':
