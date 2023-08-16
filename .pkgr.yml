@@ -36,6 +36,17 @@ targets:
       - libimlib2
       - libimlib2-dev
       - shared-mime-info
+  ubuntu-18.04:
+    dependencies:
+      - curl
+      - gnupg2
+      - libimlib2
+      - shared-mime-info
+      - whiptail
+    build_dependencies:
+      - libimlib2
+      - libimlib2-dev
+      - shared-mime-info
   ubuntu-20.04:
     dependencies:
       - curl
