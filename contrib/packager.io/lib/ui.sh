@@ -14,6 +14,7 @@ If you want to use existing, non-default or remote services, please make sure to
  * Database (PostgreSQL, MySQL/MariaDB) connection details
  * Redis connection details
  * Elasticsearch connection details
+ * Proxy connection details (full qualified domain name, optional SSL certificate)
 
 If you are unsure about any of these, please choose the local setup.
 For more information, please refer to the documentation at https://docs.zammad.org.

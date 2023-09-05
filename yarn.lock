@@ -10417,7 +10417,7 @@ vite-plugin-pwa@^0.16.5:
     workbox-build "^7.0.0"
     workbox-window "^7.0.0"
 
-vite-plugin-ruby@^3.2.2:
+vite-plugin-ruby@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/vite-plugin-ruby/-/vite-plugin-ruby-3.2.2.tgz#a174bc435b11350cfcb1b976342ca740d0bcaed2"
   integrity sha512-cuHG1MajRWPR8YdfF6lvgsQRnKFEBRwZF//asFbRiI1psacxB5aPlHSvYZYxAu5IflrAa0MdR0HxEq+g98M3iQ==
