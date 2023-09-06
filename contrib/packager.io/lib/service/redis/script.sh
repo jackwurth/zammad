@@ -22,7 +22,7 @@ function redis_server_setup() {
   case ${OS} in
     DEBIAN)
       # ${INIT_CMD} enable redis-server
-      ${INIT_CMD} restart redis-server
+      # ${INIT_CMD} restart redis-server
       ;;
     REDHAT)
       ${INIT_CMD} enable redis
