@@ -1,6 +1,9 @@
 function elasticsearch_server_install() {
   case ${OS} in
     DEBIAN)
+      if [ -f /etc/apt/sources.list.d/elastic-8.x.list ]; then
+        return 0
+      fi
       curl --silent --location https://artifacts.elastic.co/GPG-KEY-elasticsearch | \
         gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
       apt-get install apt-transport-https
@@ -10,11 +13,17 @@ function elasticsearch_server_install() {
       apt-get install elasticsearch
       ;;
     REDHAT)
+      if [ -f /etc/yum.repos.d/elasticsearch.repo ]; then
+        return 0
+      fi
       rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
       elasticsearch_rpm_repo > /etc/yum.repos.d/elasticsearch.repo
       yum install -y --enablerepo=elasticsearch elasticsearch
       ;;
     SUSE)
+      if [ -f /etc/zypp/repos.d/elasticsearch.repo ]; then
+        return 0
+      fi
       rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
       elasticsearch_rpm_repo > /etc/zypp/repos.d/elasticsearch.repo
       zypper modifyrepo --enable elasticsearch
