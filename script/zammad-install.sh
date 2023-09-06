@@ -18,6 +18,7 @@ source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/database/batch.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/redis/batch.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/elasticsearch/batch.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/proxy/batch.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/zammad.sh
 
 function detect_update() {
   DB_UPDATE="no"
