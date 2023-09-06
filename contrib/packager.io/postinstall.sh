@@ -32,3 +32,5 @@ function ui_prompt() {
 }
 
 ui_prompt
+
+exit 0
