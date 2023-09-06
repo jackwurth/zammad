@@ -1,0 +1,1 @@
+../contrib/packager.io/postinstall.sh
