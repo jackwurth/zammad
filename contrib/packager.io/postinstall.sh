@@ -16,7 +16,7 @@ Welcome to Zammad!
 
 To finalize the package installation or update, please run the following script with root privileges:
 
-  ${ZAMMAD_DIR}/script/zammad-installer
+  ${ZAMMAD_DIR}/script/zammad-install.sh
 EOF
 }
 
