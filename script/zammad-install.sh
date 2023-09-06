@@ -30,6 +30,8 @@ function detect_update() {
   export DB_UPDATE REDIS_UPDATE PROXY_UPDATE ZAMMAD_UPDATE
 }
 
+set -x
+
 # exec postinstall
 detect_os
 
@@ -48,3 +50,5 @@ elasticsearch_run
 update_or_install
 
 proxy_run
+
+set +x
