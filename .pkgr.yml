@@ -99,3 +99,4 @@ services:
   - postgres:15
   - redis
 before_install: contrib/packager.io/preinstall.sh
+after_install: contrib/packager.io/postinstall.sh

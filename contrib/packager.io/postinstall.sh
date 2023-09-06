@@ -6,43 +6,29 @@
 # base dir
 ZAMMAD_DIR=${ZAMMAD_DIR:="/opt/zammad"}
 
-# import config
-source ${ZAMMAD_DIR}/contrib/packager.io/config
+SIZE=$(stty size)
+LINES=${SIZE% *}
+COLUMNS=${SIZE#* }
 
-PATH="${ZAMMAD_DIR}/bin:/opt/zammad/vendor/bundle/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
+function ui_prompt_text() {
+cat <<EOF
+Welcome to Zammad!
 
-# import functions
-source ${ZAMMAD_DIR}/contrib/packager.io/lib/misc.sh
-source ${ZAMMAD_DIR}/contrib/packager.io/lib/ui.sh
-source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/database/batch.sh
-source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/redis/batch.sh
-source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/elasticsearch/batch.sh
-source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/proxy/batch.sh
+To finalize the package installation or update, please run the following script with root privileges:
 
-function detect_update() {
-  DB_UPDATE="no"
-  REDIS_UPDATE="no"
-  PROXY_UPDATE="no"
-  ZAMMAD_UPDATE="no"
-
-  export DB_UPDATE REDIS_UPDATE PROXY_UPDATE ZAMMAD_UPDATE
+  ${ZAMMAD_DIR}/script/zammad-installer
+EOF
 }
 
-# exec postinstall
-detect_os
+function ui_prompt() {
+  if [ "${ZAMMAD_UPDATE}" == "yes" ]; then
+    return 0
+  fi
 
-detect_initcmd
+  whiptail \
+    --title "Zammad Setup" \
+    --yesno "$(ui_welcome_text)" \
+    $((LINES - 10)) $((COLUMNS - 10))
+}
 
-detect_update
-
-ui_welcome
-
-database_run
-
-redis_run
-
-elasticsearch_run
-
-proxy_run
-
-update_or_install
+ui_prompt
