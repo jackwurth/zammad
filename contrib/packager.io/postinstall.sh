@@ -27,7 +27,7 @@ function ui_prompt() {
 
   whiptail \
     --title "Zammad Setup" \
-    --yesno "$(ui_welcome_text)" \
+    --msgbox "$(ui_prompt_text)" \
     $((LINES - 10)) $((COLUMNS - 10))
 }
 
