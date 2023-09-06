@@ -5,6 +5,7 @@
 
 # base dir
 ZAMMAD_DIR=${ZAMMAD_DIR:="/opt/zammad"}
+export ZAMMAD_DIR
 
 # import config
 source ${ZAMMAD_DIR}/contrib/packager.io/config
