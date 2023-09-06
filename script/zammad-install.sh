@@ -45,6 +45,6 @@ redis_run
 
 elasticsearch_run
 
-proxy_run
-
 update_or_install
+
+proxy_run
