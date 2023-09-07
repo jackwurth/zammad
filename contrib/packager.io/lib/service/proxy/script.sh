@@ -65,7 +65,7 @@ function proxy_server_setup() {
   if [ "${PROXY_SERVER}" == "apache2" ]; then
     CONTRIB_PROXY_CONF_DIR="${ZAMMAD_DIR}/contrib/apache2"
   fi
-  CONTRIB_PROXY_CONF_FILE="zammad.conf"
+  CONTRIB_PROXY_CONF_FILE="zammad_ssl.conf"
   CONTRIB_PROXY_CONF="${CONTRIB_PROXY_CONF_DIR}/${CONTRIB_PROXY_CONF_FILE}"
 
   # Backup existing proxy server config
