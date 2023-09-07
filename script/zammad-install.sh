@@ -30,7 +30,7 @@ function detect_update() {
   export DB_UPDATE REDIS_UPDATE PROXY_UPDATE ZAMMAD_UPDATE
 }
 
-set -x
+[[ $ZAMMAD_DEBUG == "yes" ]] && set -x
 
 # exec postinstall
 detect_os
