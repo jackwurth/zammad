@@ -12,7 +12,7 @@ function elasticsearch_run() {
       elasticsearch_ui_custom
   fi
 
-  if [ -z "$DB_CONNECTION" ]; then
+  if [ -z "$ES_URL" ]; then
       elasticsearch_server_install
       elasticsearch_server_setup
   fi
