@@ -3,7 +3,7 @@ source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/database/ui.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/database/ui/custom.sh
 
 function database_run() {
-  if [ "${DB_UPDATE}" == "yes" ]; then
+  if [ "${DB_INSTALL}" == "no" ]; then
     return 0
   fi
 

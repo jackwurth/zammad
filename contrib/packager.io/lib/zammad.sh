@@ -130,7 +130,7 @@ function update_or_install () {
   create_initscripts
   ${INIT_CMD} stop zammad
 
-  if [ "${ZAMMAD_UPDATE}" == "yes" ]; then
+  if [ "${DB_UPDATE}" == "yes" ]; then
 
     zammad run rails r Rails.cache.clear
     database_update

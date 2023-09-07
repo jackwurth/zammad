@@ -3,13 +3,17 @@ source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/elasticsearch/ui.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/elasticsearch/ui/custom.sh
 
 function elasticsearch_run() {
-  if [ "${ZAMMAD_UPDATE}" == "yes" ]; then
+  if [ "${ES_INSTALL}" == "no" ]; then
     return 0
   fi
 
   if [ "${LOCAL_ONLY}" == "no" ]; then
     elasticsearch_ui_local_custom || \
       elasticsearch_ui_custom
+  fi
+
+  if [ ${ES_URL} == "SKIP" ]; then
+    return 0
   fi
 
   if [ -z "$ES_URL" ]; then

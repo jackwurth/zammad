@@ -15,6 +15,8 @@ Please get sure to install the 'ingest-attachment' plugin on your Elasticsearch 
 After this you might need to rebuild the searchindex by:
 
     $ zammad run rake zammad:searchindex:rebuild"
+
+If you don't want to use Elasticsearch, please enter 'SKIP'.
 EOF
 }
 

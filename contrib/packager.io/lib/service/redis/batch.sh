@@ -4,7 +4,7 @@ source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/redis/ui/custom.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/redis/ui/deprecated.sh
 
 function redis_run() {
-  if [ "${REDIS_UPDATE}" == "yes" ]; then
+  if [ "${REDIS_INSTALL}" == "no" ]; then
     return 0
   fi
 

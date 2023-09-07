@@ -21,23 +21,28 @@ source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/elasticsearch/batch.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/proxy/batch.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/zammad.sh
 
-function detect_update() {
-  DB_UPDATE="no"
-  REDIS_UPDATE="no"
-  PROXY_UPDATE="no"
-  ZAMMAD_UPDATE="no"
-
-  export DB_UPDATE REDIS_UPDATE PROXY_UPDATE ZAMMAD_UPDATE
-}
-
 [[ $ZAMMAD_DEBUG == "yes" ]] && set -x
 
-# exec postinstall
+# exec service installation
 detect_os
 
 detect_initcmd
 
-detect_update
+detect_service_install
+
+if [ "${ZAMMAD_SERVICE_INSTALL}" == "no" ]; then
+  SIZE=$(stty size)
+  LINES=${SIZE% *}
+  COLUMNS=${SIZE#* }
+
+  whiptail \
+    --title "Zammad Setup" \
+    --msgbox "No action needed. All services are set up." \
+    $((LINES - 10)) $((COLUMNS - 10))
+
+  set +x
+  return 0
+fi
 
 ui_welcome
 

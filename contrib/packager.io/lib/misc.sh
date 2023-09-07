@@ -39,22 +39,34 @@ function detect_initcmd() {
   export INIT_CMD
 }
 
-function detect_update() {
+function detect_service_install() {
+  ZAMMAD_SERVICE_INSTALL="no"
+  DB_INSTALL="no"
   DB_UPDATE="no"
-  REDIS_UPDATE="no"
-  PROXY_UPDATE="no"
-  ZAMMAD_UPDATE="no"
+  PROXY_INSTALL="no"
+  REDIS_INSTALL="no"
+  ES_INSTALL="yes"
 
-  if [ -f "${ZAMMAD_DIR}/config/database.yml" ]; then
+  if [ ! -f "${ZAMMAD_DIR}/config/database.yml" ]; then
+    DB_INSTALL="yes"
+    ZAMMAD_SERVICE_INSTALL="yes"
+  else
     DB_UPDATE="yes"
-    PROXY_UPDATE="yes"
-
-    ZAMMAD_UPDATE="yes"
+    ES_INSTALL="no"
   fi
 
   if [ -z "$(zammad config:get REDIS_URL)" ]; then
-    REDIS_UPDATE="yes"
+    REDIS_INSTALL="yes"
+    ZAMMAD_SERVICE_INSTALL="yes"
   fi
 
-  export DB_UPDATE REDIS_UPDATE ES_UPDATE PROXY_UPDATE ZAMMAD_UPDATE
+  source "${ZAMMAD_DIR}/contrib/packager.io/service/proxy/script.sh"
+  proxy_server_detect
+
+  if [ -z "${PROXY_SERVER}" ] || [ ! -f "${PROXY_SERVER_CONF}" ]; then
+    PROXY_INSTALL="yes"
+    ZAMMAD_SERVICE_INSTALL="yes"
+  fi
+
+  export REDIS_INSTALL DB_INSTALL DB_UPDATE PROXY_INSTALL ES_INSTALL ZAMMAD_SERVICE_INSTALL
 }

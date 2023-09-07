@@ -5,6 +5,10 @@
 
 # base dir
 ZAMMAD_DIR=${ZAMMAD_DIR:="/opt/zammad"}
+export ZAMMAD_DIR
+
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/misc.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/zammad.sh
 
 SIZE=$(stty size)
 LINES=${SIZE% *}
@@ -14,22 +18,32 @@ function ui_prompt_text() {
 cat <<EOF
 Welcome to Zammad!
 
-To finalize the package installation or update, please run the following script with root privileges:
+To finalize the installation or update, please run the following script with root privileges:
 
   ${ZAMMAD_DIR}/script/zammad-install.sh
+
+The script will guide you through the installation required services and the Zammad application.
 EOF
 }
 
 function ui_prompt() {
-  if [ "${ZAMMAD_UPDATE}" == "yes" ]; then
-    return 0
-  fi
-
   whiptail \
     --title "Zammad Setup" \
     --msgbox "$(ui_prompt_text)" \
     $((LINES - 10)) $((COLUMNS - 10))
 }
+
+detect_os
+
+detect_initcmd
+
+detect_service_install
+
+if [ "${ZAMMAD_SERVICE_INSTALL}" == "no" ]; then
+  update_or_install
+
+  exit 0
+fi
 
 ui_prompt
 
