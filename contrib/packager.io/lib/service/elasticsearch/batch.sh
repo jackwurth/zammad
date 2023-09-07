@@ -13,6 +13,9 @@ function elasticsearch_run() {
   fi
 
   if [ ${ES_URL} == "SKIP" ]; then
+    ES_URL=""
+    export ES_URL
+
     return 0
   fi
 
