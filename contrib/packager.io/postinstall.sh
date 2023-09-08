@@ -14,6 +14,7 @@ PATH="${ZAMMAD_DIR}/bin:/opt/zammad/vendor/bundle/bin:/sbin:/bin:/usr/sbin:/usr/
 
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/misc.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/zammad.sh
+source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/proxy/script.sh
 
 SIZE=$(stty size)
 LINES=${SIZE% *}
@@ -46,6 +47,9 @@ detect_service_install
 
 if [ "${ZAMMAD_SERVICE_INSTALL}" == "no" ]; then
   update_or_install
+
+  proxy_server_detect
+  proxy_server_setup
 
   exit 0
 fi
