@@ -41,7 +41,7 @@ if [ "${ZAMMAD_SERVICE_INSTALL}" == "no" ]; then
     $((LINES - 10)) $((COLUMNS - 10))
 
   set +x
-  return 0
+  exit 0
 fi
 
 ui_welcome
