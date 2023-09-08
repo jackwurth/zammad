@@ -1,3 +1,5 @@
+source "${ZAMMAD_DIR}/contrib/packager.io/lib/service/proxy/script.sh"
+
 function detect_os() {
   . /etc/os-release
 
@@ -60,7 +62,6 @@ function detect_service_install() {
     ZAMMAD_SERVICE_INSTALL="yes"
   fi
 
-  source "${ZAMMAD_DIR}/contrib/packager.io/service/proxy/script.sh"
   proxy_server_detect
 
   if [ -z "${PROXY_SERVER}" ] || [ ! -f "${PROXY_SERVER_CONF}" ]; then

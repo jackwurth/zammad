@@ -22,7 +22,7 @@ To finalize the installation or update, please run the following script with roo
 
   ${ZAMMAD_DIR}/script/zammad-install.sh
 
-The script will guide you through the installation required services and the Zammad application.
+The script will guide you through the installation of required services and the final Zammad application setup.
 EOF
 }
 

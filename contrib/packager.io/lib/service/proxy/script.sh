@@ -68,9 +68,10 @@ function proxy_server_setup() {
   CONTRIB_PROXY_CONF_FILE="zammad_ssl.conf"
   CONTRIB_PROXY_CONF="${CONTRIB_PROXY_CONF_DIR}/${CONTRIB_PROXY_CONF_FILE}"
 
-  # Backup existing proxy server config
+  # Copy contrib proxy server config
   if [ -e "${PROXY_SERVER_CONF}" ]; then
-    mv "${PROXY_SERVER_CONF}" "${PROXY_SERVER_CONF}.dpkg-$(date +%Y%m%d%H%M%S)"
+    cp "${CONTRIB_PROXY_CONF}" "${PROXY_SERVER_CONF}.dpkg-$(date +%Y%m%d%H%M%S)"
+    return 0
   fi
 
   cp "${CONTRIB_PROXY_CONF}" "${PROXY_SERVER_CONF}"
