@@ -144,13 +144,13 @@ function update_or_install () {
 
     database_configure
     database_initialize
-
-    redis_set_url
   fi
 
   elasticsearch_configure
 
   elasticsearch_searchindex_rebuild
+
+  redis_set_url
 
   echo "# Enforcing 0600 on database.yml ..."
   chmod 600 "${ZAMMAD_DIR}/config/database.yml"
