@@ -65,7 +65,7 @@ function proxy_server_setup() {
   if [ "${PROXY_SERVER}" == "apache2" ]; then
     CONTRIB_PROXY_CONF_DIR="${ZAMMAD_DIR}/contrib/apache2"
   fi
-  CONTRIB_PROXY_CONF_FILE="zammad_ssl.conf"
+  CONTRIB_PROXY_CONF_FILE="zammad.conf"
   CONTRIB_PROXY_CONF="${CONTRIB_PROXY_CONF_DIR}/${CONTRIB_PROXY_CONF_FILE}"
 
   # Copy contrib proxy server config
@@ -75,4 +75,13 @@ function proxy_server_setup() {
   fi
 
   cp "${CONTRIB_PROXY_CONF}" "${PROXY_SERVER_CONF}"
+
+  if [ "${PROXY_SERVER}" == "nginx" ]; then
+    ln -s ${PROXY_SERVER_CONF} /etc/${PROXY_SERVER}/sites-enabled/zammad.conf
+  elif [ "${PROXY_SERVER}" == "apache2" ]; then
+    a2enmod proxy
+    a2enmod proxy_http
+    a2enmod proxy_wstunnel
+    a2ensite zammad.conf
+  fi
 }

@@ -4,15 +4,13 @@ COLUMNS=${SIZE#* }
 
 function proxy_ui_text() {
 cat <<EOF
-You have to change ${PROXY_SERVER_CONF} by setting the server name directive to the FQDN of your Zammad installation and provide a SSL certificate and key in the directory described in the related directives. If you don't have a SSL certificate you can use the following command to create a self-signed certificate:
+Add your fully qualified domain name or public IP to servername directive of ${PROXY_SERVER}, if this installation is done on a remote server. You have to change ${PROXY_SERVER_CONF} and restart ${PROXY_SERVER}.
 
-    $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example.com-key.pem -out example.com-crt.pem
+For ${PROXY_SERVER} configuration with SSL support see ${ZAMMAD_DIR}/contrib/${PROXY_SERVER}.
 
-or use Let's Encrypt (https://letsencrypt.org) to create a trusted certificate. You have to enable the ${PROXY_SERVER} configuration and restart the ${PROXY_SERVER} service afterwards. Furthermore you have to set the correct HTTP type and full qualified domain name in Zammad, see https://admin-docs.zammad.org/en/latest/settings/system/base.html
+Furthermore you have to set the correct HTTP type and full qualified domain name in Zammad, see https://admin-docs.zammad.org/en/latest/settings/system/base.html
 
-For ${PROXY_SERVER} configuration without SSL support see ${ZAMMAD_DIR}/contrib/${PROXY_SERVER}.
-
-Locally you can open http://localhost:3000/ in your browser to start using Zammad.
+Otherwise just open http://localhost:3000/ in your browser to start using Zammad.
 EOF
 
   case "${OS}" in
