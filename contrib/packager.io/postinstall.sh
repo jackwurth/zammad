@@ -7,6 +7,11 @@
 ZAMMAD_DIR=${ZAMMAD_DIR:="/opt/zammad"}
 export ZAMMAD_DIR
 
+# import config
+source ${ZAMMAD_DIR}/contrib/packager.io/config
+
+PATH="${ZAMMAD_DIR}/bin:/opt/zammad/vendor/bundle/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
+
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/misc.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/zammad.sh
 
