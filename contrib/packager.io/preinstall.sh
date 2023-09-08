@@ -9,56 +9,56 @@
 #   which might come from a backup restore and/or a manual 'assets:precompile' command run.
 #   These duplicates can cause the application to fail, however.
 #
+ZAMMAD_DIR=${ZAMMAD_DIR:="/opt/zammad"}
+export ZAMMAD_DIR
+
 rm -f /opt/zammad/public/assets/.sprockets-manifest-*.json || true
 
-#
-# TEMPORARILY DISABLED DUE TO OPEN ISSUES
-#
-# # Ensure database connectivity
-# if [[ -f /opt/zammad/config/database.yml ]]; then
-#    DB_HOST="$(grep -m 1 '^[[:space:]]*host:' < /opt/zammad/config/database.yml | sed -e 's/.*host:[[:space:]]*//g')"
-#    DB_PORT="$(grep -m 1 '^[[:space:]]*port:' < /opt/zammad/config/database.yml | sed -e 's/.*port:[[:space:]]*//g')"
-#    DB_SOCKET="$(grep -m 1 '^[[:space:]]*socket:' < /opt/zammad/config/database.yml | sed -e 's/.*socket:[[:space:]]*//g')"
-# fi
+# Ensure database connectivity
+if [[ -f /opt/zammad/config/database.yml ]]; then
+   DB_HOST="$(grep -m 1 '^[[:space:]]*host:' < ${ZAMMAD_DIR}/config/database.yml | sed -e 's/.*host:[[:space:]]*//g')"
+   DB_PORT="$(grep -m 1 '^[[:space:]]*port:' < ${ZAMMAD_DIR}/config/database.yml | sed -e 's/.*port:[[:space:]]*//g')"
+   DB_SOCKET="$(grep -m 1 '^[[:space:]]*socket:' < ${ZAMMAD_DIR}/config/database.yml | sed -e 's/.*socket:[[:space:]]*//g')"
+fi
 
-# if [ "${DB_HOST}x" == "x" ]; then
-#    DB_HOST="localhost"
-# fi
+if [ "${DB_HOST}x" == "x" ]; then
+   DB_HOST="localhost"
+fi
 
-# if [ -n "$(which psql 2> /dev/null)" ]; then
-#    if [ "${DB_PORT}x" == "x" ]; then
-#       DB_PORT="5432"
-#    fi
+if type -P psql >/dev/null; then
+   if [ "${DB_PORT}x" == "x" ]; then
+      DB_PORT="5432"
+   fi
 
-#    if [ "${DB_SOCKET}x" == "x" ]; then
-#       pg_isready -q -h $DB_HOST -p $DB_PORT
-#       state=$?
-#    else
-#       pg_isready -q
-#       state=$?
-#    fi
+   if [ "${DB_SOCKET}x" == "x" ]; then
+      pg_isready -q -h $DB_HOST -p $DB_PORT
+      state=$?
+   else
+      pg_isready -q
+      state=$?
+   fi
 
-# elif [ -n "$(which mysql 2> /dev/null)" ]; then
-#    if [ "${DB_PORT}x" == "x" ]; then
-#       DB_PORT="3306"
-#    fi
+elif type -P mysql >/dev/null; then
+   if [ "${DB_PORT}x" == "x" ]; then
+      DB_PORT="3306"
+   fi
 
-#    mysqladmin status -h $DB_HOST -P $DB_PORT
-#    state=$?
-# fi
+   mysqladmin status -h $DB_HOST -P $DB_PORT
+   state=$?
+fi
 
-# # Check error state to ensure database is online
-# if [[ $state -gt 0 ]]; then
-#    echo "!!! ERROR !!!"
-#    echo "Your database does not seem to be online!"
-#    echo "Please check your configuration in config/database.yml and ensure the configured database server is online."
-#    echo "Exiting Zammad package installation / upgrade - try again."
+# Check error state to ensure database is online
+if [[ $state -gt 0 ]]; then
+   echo "!!! ERROR !!!"
+   echo "Your database does not seem to be online!"
+   echo "Please check your configuration in config/database.yml and ensure the configured database server is online."
+   echo "Exiting Zammad package installation / upgrade - try again."
 
-#    exit 1
-# fi
+   exit 1
+fi
 
 # remove local files of the packages
-if [ -n "$(which zammad 2> /dev/null)" ]; then
+if type -P zammad >/dev/null; then
    PATH=/opt/zammad/bin:/opt/zammad/vendor/bundle/bin:/sbin:/bin:/usr/sbin:/usr/bin:
 
    RAKE_TASKS=$(zammad run rake --tasks | grep "zammad:package:uninstall_all_files")
@@ -69,7 +69,7 @@ if [ -n "$(which zammad 2> /dev/null)" ]; then
       exit 0
    fi
 
-   if [ "$(zammad run rails r 'puts Package.count.positive?')" == "true" ] && [ -n "$(which yarn 2> /dev/null)" ] && [ -n "$(which node 2> /dev/null)" ]; then
+   if [ "$(zammad run rails r 'puts Package.count.positive?')" == "true" ] && type -P yarn >/dev/null && type -P node >/dev/null; then
       echo "# Detected custom packages..."
       echo "# Remove custom packages files temporarily..."
       zammad run rake zammad:package:uninstall_all_files
