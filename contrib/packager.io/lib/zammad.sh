@@ -31,6 +31,9 @@ function database_update() {
 
 ### Redis
 function redis_set_url() {
+  if [ -z "${REDIS_URL}" ]; then
+    return 0
+  fi
   zammad config:set REDIS_URL="${REDIS_URL}"
 }
 
@@ -141,6 +144,8 @@ function update_or_install () {
 
     database_configure
     database_initialize
+
+    redis_set_url
   fi
 
   elasticsearch_configure
