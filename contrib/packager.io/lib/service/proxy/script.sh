@@ -13,19 +13,19 @@ function proxy_server_detect() {
       fi
       ;;
     REDHAT)
-      if rpm -query nginx >/dev/null 2>&1; then
+      if rpm --query nginx >/dev/null 2>&1; then
         PROXY_SERVER="nginx"
         PROXY_SERVER_CONF="/etc/nginx/conf.d/zammad.conf"
-      elif rpm -query httpd >/dev/null 2>&1; then
+      elif rpm --query httpd >/dev/null 2>&1; then
         PROXY_SERVER="apache2"
         PROXY_SERVER_CONF="/etc/httpd/conf.d/zammad.conf"
       fi
       ;;
     SUSE)
-      if rpm -query nginx >/dev/null 2>&1; then
+      if rpm --query nginx >/dev/null 2>&1; then
         PROXY_SERVER="nginx"
         PROXY_SERVER_CONF="/etc/nginx/vhosts.d/zammad.conf"
-      elif rpm -query apache2 >/dev/null 2>&1; then
+      elif rpm --query apache2 >/dev/null 2>&1; then
         PROXY_SERVER="apache2"
         PROXY_SERVER_CONF="/etc/apache2/vhosts.d/zammad.conf"
       fi
@@ -56,6 +56,9 @@ function proxy_server_install() {
       ;;
   esac
 
+  ${INIT_CMD} enable nginx.service
+  ${INIT_CMD} restart nginx.service
+
   proxy_server_detect
 }
 
@@ -75,13 +78,4 @@ function proxy_server_setup() {
   fi
 
   cp "${CONTRIB_PROXY_CONF}" "${PROXY_SERVER_CONF}"
-
-  if [ "${PROXY_SERVER}" == "nginx" ]; then
-    ln -s ${PROXY_SERVER_CONF} /etc/${PROXY_SERVER}/sites-enabled/zammad.conf
-  elif [ "${PROXY_SERVER}" == "apache2" ]; then
-    a2enmod proxy
-    a2enmod proxy_http
-    a2enmod proxy_wstunnel
-    a2ensite zammad.conf
-  fi
 }

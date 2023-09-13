@@ -12,7 +12,7 @@ function database_server_install() {
       else
         yum updateinfo
         yum install -y postgresql-server
-        postgresql-setup initdb
+        su - postgres -c 'postgresql-setup --initdb --unit postgresql'
       fi
       ;;
     SUSE)
@@ -20,6 +20,15 @@ function database_server_install() {
       zypper install -y postgresql-server
       ;;
   esac
+}
+
+function database_server_pre_setup() {
+  if [[ "${OS}" != "REDHAT" ]]; then
+    return 0
+  fi
+
+  sed -i 's/ident/scram-sha-256/g' /var/lib/pgsql/data/pg_hba.conf
+  echo "password_encryption = scram-sha-256" >> /var/lib/pgsql/data/postgresql.conf
 }
 
 function database_server_setup() {

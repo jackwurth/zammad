@@ -4,7 +4,7 @@ COLUMNS=${SIZE#* }
 
 function proxy_ui_text() {
 cat <<EOF
-Add your fully qualified domain name or public IP to servername directive of ${PROXY_SERVER}, if this installation is done on a remote server. You have to change ${PROXY_SERVER_CONF} and restart ${PROXY_SERVER}.
+Add your fully qualified domain name or public IP to servername directive of ${PROXY_SERVER}, if this installation is done on a remote server. You have to change ${PROXY_SERVER_CONF} and potentially further ${PROXY_SERVER} configuration files. Afterward reload or restart ${PROXY_SERVER}.
 
 For ${PROXY_SERVER} configuration with SSL support see ${ZAMMAD_DIR}/contrib/${PROXY_SERVER}.
 

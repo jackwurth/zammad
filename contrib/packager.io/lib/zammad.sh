@@ -69,6 +69,10 @@ function elasticsearch_configure() {
     zammad run rails r "Setting.set('es_user', '${ES_USER}')"
     zammad run rails r "Setting.set('es_password', '${ES_PASS}')"
   fi
+
+  if [ "${ES_LOCAL}" == "yes" ]; then
+    zammad run rails r "Setting.set('es_ssl_verify', 'false')"
+  fi
 }
 
 function elasticsearch_searchindex_rebuild () {

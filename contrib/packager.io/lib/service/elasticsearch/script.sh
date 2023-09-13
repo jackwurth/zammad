@@ -12,14 +12,14 @@ function elasticsearch_server_install() {
       apt-get install elasticsearch
       ;;
     REDHAT)
-      if [ -f /etc/yum.repos.d/elasticsearch.repo ]; then
+      if [ ! -f /etc/yum.repos.d/elasticsearch.repo ]; then
         rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
         elasticsearch_rpm_repo > /etc/yum.repos.d/elasticsearch.repo
       fi
       yum install -y --enablerepo=elasticsearch elasticsearch
       ;;
     SUSE)
-      if [ -f /etc/zypp/repos.d/elasticsearch.repo ]; then
+      if [ ! -f /etc/zypp/repos.d/elasticsearch.repo ]; then
         rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
         elasticsearch_rpm_repo > /etc/zypp/repos.d/elasticsearch.repo
         zypper modifyrepo --enable elasticsearch
@@ -42,8 +42,9 @@ function elasticsearch_server_setup() {
 
   ES_PASSWORD=$(/usr/share/elasticsearch/bin/elasticsearch-reset-password --username elastic --silent --batch)
   ES_URL="https://elastic:${ES_PASSWORD}@localhost:9200"
+  ES_LOCAL="yes"
 
-  export ES_URL
+  export ES_URL ES_LOCAL
 }
 
 function elasticsearch_rpm_repo() {
