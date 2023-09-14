@@ -19,19 +19,15 @@ function detect_os() {
 }
 
 function detect_initcmd() {
-  if [ -n "$(which systemctl 2> /dev/null)" ]; then
+  if type -P systemctl >/dev/null; then
     INIT_CMD="systemctl"
-  elif [ -n "$(which initctl 2> /dev/null)" ]; then
+  elif type -P initctl >/dev/null; then
     INIT_CMD="initctl"
   else
     function sysvinit() {
       service $2 $1
     }
     INIT_CMD="sysvinit"
-  fi
-
-  if [ "${DOCKER}" == "yes" ]; then
-    INIT_CMD="initctl"
   fi
 
   if [ "${DEBUG}" == "yes" ]; then

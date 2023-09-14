@@ -5,30 +5,17 @@ function database_server_install() {
       apt-get install -y postgresql
       ;;
     REDHAT)
-      if [ "${DISTRI}" == "centos-7" ]; then
-        yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-        yum install -y postgresql15-server
-        /usr/pgsql-15/bin/postgresql-15-setup initdb
-      else
-        yum updateinfo
-        yum install -y postgresql-server
-        su - postgres -c 'postgresql-setup --initdb --unit postgresql'
-      fi
+      yum updateinfo
+      yum install -y postgresql-server
+      su - postgres -c '/usr/bin/initdb --auth=peer --auth-host=scram-sha-256 --pgdata=/var/lib/pgsql/data --locale=C.UTF-8 --encoding=utf8'
       ;;
     SUSE)
       zypper refresh
       zypper install -y postgresql-server
+      su - postgres -c 'install -d -m 700 /var/lib/pgsql/data'
+      su - postgres -c '/usr/bin/initdb --auth=peer --auth-host=scram-sha-256 --pgdata=/var/lib/pgsql/data --locale=C.UTF-8 --encoding=utf8'
       ;;
   esac
-}
-
-function database_server_pre_setup() {
-  if [[ "${OS}" != "REDHAT" ]]; then
-    return 0
-  fi
-
-  sed -i 's/ident/scram-sha-256/g' /var/lib/pgsql/data/pg_hba.conf
-  echo "password_encryption = scram-sha-256" >> /var/lib/pgsql/data/postgresql.conf
 }
 
 function database_server_setup() {

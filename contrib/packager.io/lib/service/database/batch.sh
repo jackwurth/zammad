@@ -14,7 +14,6 @@ function database_run() {
 
   if [ -z "$DB_CONNECTION" ]; then
       database_server_install
-      database_server_pre_setup
       database_server_setup
   fi
 }

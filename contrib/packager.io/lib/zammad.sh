@@ -71,7 +71,7 @@ function elasticsearch_configure() {
   fi
 
   if [ "${ES_LOCAL}" == "yes" ]; then
-    zammad run rails r "Setting.set('es_ssl_verify', 'false')"
+    zammad run rails r "Setting.set('es_ssl_verify', false)"
   fi
 }
 

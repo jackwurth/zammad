@@ -25,7 +25,6 @@ function elasticsearch_server_install() {
         zypper modifyrepo --enable elasticsearch
       fi
       zypper install -y elasticsearch
-      zypper modifyrepo --disable elasticsearch
       ;;
     *)
       echo "OS not supported"

@@ -12,7 +12,7 @@ function elasticsearch_run() {
       elasticsearch_ui_custom
   fi
 
-  if [ ${ES_URL} == "SKIP" ]; then
+  if [ "${ES_URL}" == "SKIP" ]; then
     ES_URL=""
     export ES_URL
 

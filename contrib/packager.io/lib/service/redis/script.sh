@@ -5,15 +5,12 @@ function redis_server_install() {
       apt-get install -y redis-server redis-tools
       ;;
     REDHAT)
-      if [ "${DISTRI}" == "centos-7" ]; then
-        echo "Custom setup only"
-      else
-        yum updateinfo
-        yum install -y redis
-      fi
+      yum updateinfo
+      yum install -y redis
       ;;
     SUSE)
-      echo "Custom setup only"
+      zypper refresh
+      zypper install --no-confirm redis7
       ;;
   esac
 }
