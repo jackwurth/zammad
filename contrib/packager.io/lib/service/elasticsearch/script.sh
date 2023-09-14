@@ -35,6 +35,11 @@ function elasticsearch_server_install() {
 
 function elasticsearch_server_setup() {
   chown root:elasticsearch /etc/elasticsearch/certs
+  cat << EOF > /etc/elasticsearch/jvm.options.d/zammad.options
+-Xms1g
+-Xmx2g
+EOF
+  chown root:elasticsearch /etc/elasticsearch/jvm.options.d/zammad.options
 
   ${INIT_CMD} enable elasticsearch
   ${INIT_CMD} restart elasticsearch
