@@ -89,7 +89,7 @@ function i18n_update () {
 
 function detect_zammad_packages () {
   ZAMMAD_PACKAGES="no"
-  if [ "$(zammad run rails r 'puts Package.count.positive?')" == "true" ] && [ -n "$(which yarn 2> /dev/null)" ] ; then
+  if [ "$(zammad run rails r 'puts Package.count.positive?')" == "true" ] && type -P yarn >/dev/null; then
     ZAMMAD_PACKAGES="yes"
   fi
 
