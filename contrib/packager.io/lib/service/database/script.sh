@@ -37,15 +37,12 @@ function database_server_setup() {
 
 function database_server_verify_connection_script() {
   cat <<EOF
-#!/usr/bin/env ruby
-# frozen_string_literal: true
-
 require 'active_record'
 require 'yaml'
 
 exit(1) if ! File.exist?('${ZAMMAD_DIR}/config/database.yml')
 
-YAML.load_file('${ZAMMAD_DIR}/config/database.yml', aliases: true)['production']
+db_config = YAML.load_file('${ZAMMAD_DIR}/config/database.yml', aliases: true)['production']
 
 begin
   ActiveRecord::Base.establish_connection(db_config)
@@ -59,5 +56,10 @@ EOF
 }
 
 function database_server_verify_connection() {
-    zammad run ruby -e "$(database_server_verify_connection_script)"
+  database_server_verify_connection_script > ${ZAMMAD_DIR}/tmp/database_server_verify_connection.rb
+  zammad run ruby ${ZAMMAD_DIR}/tmp/database_server_verify_connection.rb
+  rc=$?
+  rm -f ${ZAMMAD_DIR}/tmp/database_server_verify_connection.rb
+
+  return $rc
 }
