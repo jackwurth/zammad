@@ -59,5 +59,5 @@ EOF
 }
 
 function database_server_verify_connection() {
-    ruby -e "$(database_server_verify_connection_script)"
+    zammad run ruby -e "$(database_server_verify_connection_script)"
 }
