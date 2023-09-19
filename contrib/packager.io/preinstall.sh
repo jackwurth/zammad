@@ -82,8 +82,8 @@ function remove_local_package_files() {
 }
 
 function main() {
-  clean_sprockets_manifest
   database_server_verify_connection
+  clean_sprockets_manifest
   remove_local_package_files
 }
 
