@@ -34,32 +34,3 @@ function database_server_setup() {
 
   export DB_PASS DB_ADAPTER DB_HOST DB_PORT DB_USER DB
 }
-
-function database_server_verify_connection_script() {
-  cat <<EOF
-require 'active_record'
-require 'yaml'
-
-exit(1) if ! File.exist?('${ZAMMAD_DIR}/config/database.yml')
-
-db_config = YAML.load_file('${ZAMMAD_DIR}/config/database.yml', aliases: true)['production']
-
-begin
-  ActiveRecord::Base.establish_connection(db_config)
-  ActiveRecord::Base.connection
-rescue StandardError
-  # noop
-end
-
-ActiveRecord::Base.connected? ? exit(0) : exit(1)
-EOF
-}
-
-function database_server_verify_connection() {
-  database_server_verify_connection_script > ${ZAMMAD_DIR}/tmp/database_server_verify_connection.rb
-  zammad run ruby ${ZAMMAD_DIR}/tmp/database_server_verify_connection.rb
-  rc=$?
-  rm -f ${ZAMMAD_DIR}/tmp/database_server_verify_connection.rb
-
-  return $rc
-}

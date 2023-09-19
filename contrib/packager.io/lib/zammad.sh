@@ -9,7 +9,6 @@ function database_configure() {
       DB=$(echo "${DB_CONNECTION}" | cut -d '/' -f 4)
   fi
 
-  echo "# Updating database.yml"
   sed -e "s/.*adapter:.*/  adapter: ${DB_ADAPTER}/" \
     -e "s/.*username:.*/  username: ${DB_USER}/" \
     -e "s/.*password:.*/  password: ${DB_PASS}/" \
@@ -156,7 +155,6 @@ function update_or_install () {
 
   redis_set_url
 
-  echo "# Enforcing 0600 on database.yml ..."
   chmod 600 "${ZAMMAD_DIR}/config/database.yml"
 
   set_env_vars

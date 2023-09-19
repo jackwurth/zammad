@@ -30,10 +30,6 @@ function detect_initcmd() {
     INIT_CMD="sysvinit"
   fi
 
-  if [ "${DEBUG}" == "yes" ]; then
-    echo "INIT CMD = ${INIT_CMD}"
-  fi
-
   export INIT_CMD
 }
 
