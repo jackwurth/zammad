@@ -21,8 +21,6 @@ source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/elasticsearch/batch.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/service/proxy/batch.sh
 source ${ZAMMAD_DIR}/contrib/packager.io/lib/zammad.sh
 
-[[ $ZAMMAD_DEBUG == "yes" ]] && set -x
-
 # exec service installation
 detect_os
 
@@ -40,7 +38,6 @@ if [ "${ZAMMAD_SERVICE_INSTALL}" == "no" ]; then
     --msgbox "No action needed. All services are set up." \
     $((LINES - 10)) $((COLUMNS - 10))
 
-  set +x
   exit 0
 fi
 
@@ -55,5 +52,3 @@ elasticsearch_run
 update_or_install
 
 proxy_run
-
-set +x
