@@ -19,11 +19,11 @@ function redis_server_setup() {
   case ${OS} in
     DEBIAN)
       ${INIT_CMD} enable redis-server
-      ${INIT_CMD} restart redis-server
+      ${INIT_CMD} start redis-server
       ;;
     REDHAT)
       ${INIT_CMD} enable redis
-      ${INIT_CMD} restart redis
+      ${INIT_CMD} start redis
       ;;
     SUSE)
       if [ ! -e /etc/redis/default.conf ]; then
@@ -31,7 +31,7 @@ function redis_server_setup() {
       fi
       install -d -o redis -g redis -m 0750 /var/lib/redis/default
       ${INIT_CMD} enable redis@default
-      ${INIT_CMD} restart redis@default
+      ${INIT_CMD} start redis@default
       ;;
   esac
 

@@ -21,7 +21,7 @@ function database_server_install() {
 
 function database_server_setup() {
   ${INIT_CMD} enable postgresql.service
-  ${INIT_CMD} restart postgresql.service
+  ${INIT_CMD} start postgresql.service
 
   DB_PASS="$(tr -dc A-Za-z0-9 < /dev/urandom | head -c 10)"
   echo "CREATE USER \"${DB_USER}\" WITH PASSWORD '${DB_PASS}';" | su - postgres -c psql

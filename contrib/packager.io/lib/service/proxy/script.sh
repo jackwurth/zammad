@@ -57,7 +57,7 @@ function proxy_server_install() {
   esac
 
   ${INIT_CMD} enable nginx.service
-  ${INIT_CMD} restart nginx.service
+  ${INIT_CMD} start nginx.service
 
   proxy_server_detect
 }

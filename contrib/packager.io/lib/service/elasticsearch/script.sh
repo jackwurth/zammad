@@ -42,7 +42,7 @@ EOF
   chown root:elasticsearch /etc/elasticsearch/jvm.options.d/zammad.options
 
   ${INIT_CMD} enable elasticsearch
-  ${INIT_CMD} restart elasticsearch
+  ${INIT_CMD} start elasticsearch
 
   ES_PASSWORD=$(/usr/share/elasticsearch/bin/elasticsearch-reset-password --username elastic --silent --batch)
   ES_URL="https://elastic:${ES_PASSWORD}@localhost:9200"
