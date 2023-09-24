@@ -12,7 +12,7 @@ function database_run() {
       database_ui_custom
   fi
 
-  if [ -z "$DB_CONNECTION" ]; then
+  if [ -z "$DB_URL" ]; then
       database_server_install
       database_server_setup
   fi

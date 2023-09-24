@@ -32,5 +32,7 @@ function database_server_setup() {
   DB_HOST="localhost"
   DB_PORT="5432"
 
-  export DB_PASS DB_ADAPTER DB_HOST DB_PORT DB_USER DB
+  DB_URL="${DB_ADAPTER}://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB}?encoding=utf8&pool=5&timeout=5000"
+
+  export DB_URL
 }

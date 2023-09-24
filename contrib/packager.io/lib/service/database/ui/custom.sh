@@ -14,13 +14,13 @@ EOF
 }
 
 function database_ui_custom() {
-  DB_CONNECTION=$(whiptail \
+  DB_URL=$(whiptail \
     --title "Zammad Setup" \
     --inputbox "$(database_ui_text_custom)" \
     $((LINES - 10)) $((COLUMNS - 10)) \
     postgresql://zammad:zammad@localhost:5432/zammad \
     3>&1 1>&2 2>&3
-  ) || DB_CONNECTION=""
+  ) || DB_URL=""
 
-  export DB_CONNECTION
+  export DB_URL
 }

@@ -1,21 +1,6 @@
 ### Databse
 function database_configure() {
-  if [ -n "${DB_CONNECTION}" ]; then
-      DB_ADAPTER=$(echo "${DB_CONNECTION}" | cut -d ':' -f 1)
-      DB_USER=$(echo "${DB_CONNECTION}" | cut -d '/' -f 3 | cut -d ':' -f 1)
-      DB_PASS=$(echo "${DB_CONNECTION}" | cut -d '/' -f 3 | cut -d ':' -f 2 | cut -d '@' -f 1)
-      DB_HOST=$(echo "${DB_CONNECTION}" | cut -d '@' -f 2 | cut -d ':' -f 1)
-      DB_PORT=$(echo "${DB_CONNECTION}" | cut -d '@' -f 2 | cut -d ':' -f 2 | cut -d '/' -f 1)
-      DB=$(echo "${DB_CONNECTION}" | cut -d '/' -f 4)
-  fi
-
-  sed -e "s/.*adapter:.*/  adapter: ${DB_ADAPTER}/" \
-    -e "s/.*username:.*/  username: ${DB_USER}/" \
-    -e "s/.*password:.*/  password: ${DB_PASS}/" \
-    -e "s/.*host:.*/  host: ${DB_HOST}/" \
-    -e "s/.*port:.*/  port: ${DB_PORT}/" \
-    -e "s/.*database:.*/  database: ${DB}/" < "${ZAMMAD_DIR}/contrib/packager.io/database.yml.pkgr" > "${ZAMMAD_DIR}/config/database.yml"
-
+  echo -e "production:\n  url: $DB_URL\n" > "${ZAMMAD_DIR}/config/database.yml"
   chown zammad:zammad "${ZAMMAD_DIR}/config/database.yml"
 }
 
