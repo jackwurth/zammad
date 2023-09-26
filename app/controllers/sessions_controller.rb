@@ -124,6 +124,9 @@ class SessionsController < ApplicationController
     # remember omnitauth login
     session[:authentication_type] = 'omniauth'
 
+    # set cookie expiration date
+    request.env['rack.session.options'][:expire_after] = get_session_timeout(authorization.user)
+
     # Set needed fingerprint parameter.
     if request.env['omniauth.params']['fingerprint'].present?
       params[:fingerprint] = request.env['omniauth.params']['fingerprint']
@@ -335,6 +338,24 @@ class SessionsController < ApplicationController
     url = logout_request.create(settings)
 
     render json: { url: url }
+  end
+
+  def get_session_timeout(user)
+    permissions = user.permissions_with_child_names
+    config = Setting.get("session_timeout")
+    result = -1
+    config.each do |key, value|
+      next if key == 'default'
+      next if permissions.exclude?(key)
+      next if value.to_i < result
+      result = value.to_i
+    end
+
+    if result < 1
+      return config['default'].to_i
+    end
+
+    result
   end
 
 end
